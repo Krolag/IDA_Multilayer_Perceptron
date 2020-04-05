@@ -1,6 +1,8 @@
 import numpy as np
 import math
-from random import random
+from random import random, seed
+
+seed(2137)
 
 def randVector(rows, columns):
     output = []
@@ -16,6 +18,13 @@ def randVector(rows, columns):
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
     
+def map(this_arr, function):
+    size = np.shape(this_arr)
+    for i in range(size[0]):
+        for j in range(size[1]):
+            value = this_arr[i][j]
+            this_arr[i][j] = function(value)
+
 class NeuralNetwork:
     def __init__(self, numI, numH, numO, is_bias):
         self.input_nodes = numI
@@ -31,14 +40,20 @@ class NeuralNetwork:
         # Generating the Hidden Outputs
         inputs = input_array
         hidden = np.dot(self.weigts_ih, inputs)
+        hidden = np.array(hidden)
         if (self.bias_active == True):
             hidden = hidden + self.bias_h
-        hidden = np.array(hidden)
-        print(hidden)
-        
+        map(hidden, sigmoid)
 
-        # LOTS OF MAGIC!
+        # Generating the Output's Output
+        output = np.dot(self.weigts_ho, hidden)
+        output = np.array(output)
+        if (self.bias_active == True):
+            output = output + self.bias_o
+        map(output, sigmoid)
 
-        # Activation Function
+        # Sendig it back to the caller
+        return output
 
+    def train(self, inputs, answer):
         return 0
