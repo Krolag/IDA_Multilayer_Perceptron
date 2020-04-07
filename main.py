@@ -21,7 +21,8 @@ if __name__ == "__main__":
         network.train(training_input, training_output)
     delta_time = (str)("--- %s seconds ---" % (time.time() - start_time))
     output = (network.predict(training_input))
-
+    
+    # For Overleaf raport in *.tax:
     result = ''
     for i in range(4):
         for j in range(4):
